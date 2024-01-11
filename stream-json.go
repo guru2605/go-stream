@@ -42,6 +42,7 @@ func processJSONStream(c *gin.Context) {
 			err := decoder.Decode(&record)
 			if err != nil {
 				c.JSON(500, gin.H{"error": "Error decoding JSON stream"})
+				break
 				return
 			}
 			batch = append(batch, record)
@@ -53,6 +54,7 @@ func processJSONStream(c *gin.Context) {
 			c.JSON(500, gin.H{"error": "Error inserting records into the database"})
 			return
 		}
+		batch = []Record{}
 
 		// Optionally, you can log or return information about the processed record
 		// fmt.Printf("Processed record %+v\n", batch)
